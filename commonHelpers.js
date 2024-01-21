@@ -1,15 +1,15 @@
-import{i as c}from"./assets/vendor-4d6948b9.js";(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))s(e);new MutationObserver(e=>{for(const o of e)if(o.type==="childList")for(const a of o.addedNodes)a.tagName==="LINK"&&a.rel==="modulepreload"&&s(a)}).observe(document,{childList:!0,subtree:!0});function r(e){const o={};return e.integrity&&(o.integrity=e.integrity),e.referrerpolicy&&(o.referrerPolicy=e.referrerpolicy),e.crossorigin==="use-credentials"?o.credentials="include":e.crossorigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function s(e){if(e.ep)return;e.ep=!0;const o=r(e);fetch(e.href,o)}})();const l="https://pixabay.com/api",u="41870399-9b44301246ceb98c07efd626a",i={searchForm:document.querySelector(".search-form"),photoListEl:document.querySelector(".photo-list")};i.searchForm.addEventListener("submit",m);function m(n){n.preventDefault();const t=n.currentTarget,r=t.elements.query.value;f(r).then(d).catch(p).finally(()=>t.reset())}function f(n){const t=new URLSearchParams({key:u,q:n,image_type:"photo",orientation:"horizontal",safesearch:!0,per_page:9}),r=`${l}/?${t}`;return fetch(r).then(s=>{if(!s.ok)throw new Error(s.statusText);return s.json()})}function p(n){console.error(n),c.show({title:"Error",message:"Sorry, there are no images matching your search query. Please try again!",position:"topCenter",color:"red"})}function d({hits:n}){const t=n.map(r=>`<li class="gallery-item">
-  <a class="gallery-link" href="${r.largeImageURL}">
+import{i,S as c}from"./assets/vendor-46aac873.js";(function(){const n=document.createElement("link").relList;if(n&&n.supports&&n.supports("modulepreload"))return;for(const o of document.querySelectorAll('link[rel="modulepreload"]'))a(o);new MutationObserver(o=>{for(const t of o)if(t.type==="childList")for(const l of t.addedNodes)l.tagName==="LINK"&&l.rel==="modulepreload"&&a(l)}).observe(document,{childList:!0,subtree:!0});function e(o){const t={};return o.integrity&&(t.integrity=o.integrity),o.referrerpolicy&&(t.referrerPolicy=o.referrerpolicy),o.crossorigin==="use-credentials"?t.credentials="include":o.crossorigin==="anonymous"?t.credentials="omit":t.credentials="same-origin",t}function a(o){if(o.ep)return;o.ep=!0;const t=e(o);fetch(o.href,t)}})();const u="https://pixabay.com/api",p="41870399-9b44301246ceb98c07efd626a",s={searchForm:document.querySelector(".search-form"),photoListEl:document.querySelector(".photo-list"),loader:document.querySelector(".loader")};s.loader.style.display="none";function d(r){if(!r.ok)throw new Error(r.statusText);return r.json()}s.searchForm.addEventListener("submit",m);function m(r){r.preventDefault(),s.loader.style.display="inline-block";const n=r.currentTarget,e=n.elements.query.value;if(s.photoListEl.innerHTML="",!e){i.show({message:"Please enter your request",position:"topRight",color:"yellow"});return}f(e).then(y).catch(a=>console.log(a)).finally(()=>n.reset())}function f(r){const n=new URLSearchParams({key:p,q:r,image_type:"photo",orientation:"horizontal",safesearch:!0}),e=`${u}/?${n}`;return fetch(e).then(d)}function y({hits:r}){if(s.loader.style.display="none",r.length===0){i.show({title:"Error",message:"Sorry, there are no images matching your search query. Please try again!",position:"topCenter",color:"red"});return}const n=r.map(e=>`<li class="gallery-item">
+  <a class="gallery-link" href="${e.largeImageURL}">
     <img
       class="gallery-image"
-      src="${r.webformatURL}"
-      data-source="${r.imoriginal}"
-      alt="${r.tags}"
+      src="${e.webformatURL}"
+      data-source="${e.imoriginal}"
+      alt="${e.tags}"
     />
-  </a>
-   <p>Likes: ${r.likes}</p>
-   <p>Views: ${r.views}</p>
-   <p>Comment: ${r.comments}</p>
-   <p>Downloads: ${r.downloads}</p>
-</li>`).join("");i.photoListEl.innerHTML=t}
+  </a><div class="gallery-descr">
+   <p>Likes: <br><span>${e.likes}</span></p>
+   <p>Views: <br><span>${e.views}</span></p>
+   <p>Comment: <br><span>${e.comments}</span></p>
+   <p>Downloads: <br><span>${e.downloads}</span></p></div>
+</li>`).join("");s.photoListEl.innerHTML=n,h.refresh()}const h=new c(".photo-container a",{captionsData:"alt",captionDelay:250});
 //# sourceMappingURL=commonHelpers.js.map
