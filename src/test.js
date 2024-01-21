@@ -38,6 +38,7 @@ function handleSearch(event) {
       position: 'topRight',
       color: 'yellow',
     });
+      refs.loader.style.display = 'none';
     return;
   }
 
