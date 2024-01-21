@@ -9,20 +9,41 @@ const API_KEY = '41870399-9b44301246ceb98c07efd626a';
 const refs = {
   searchForm: document.querySelector('.search-form'),
   photoListEl: document.querySelector('.photo-list'),
+  loader: document.querySelector('.loader'),
 };
 
-// const searchForm = document.querySelector('.search-form');
-// const ulEl = document.querySelector('.photo-list');
+refs.loader.style.display = 'none';
+
+function checkResponse(res) {
+  if (!res.ok) {
+    throw new Error(res.statusText);
+  }
+  return res.json();
+}
+
 refs.searchForm.addEventListener('submit', handleSearch);
 
 function handleSearch(event) {
   event.preventDefault();
+
+  refs.loader.style.display = 'inline-block';
+
   const form = event.currentTarget;
   const query = form.elements.query.value;
+  refs.photoListEl.innerHTML = '';
+
+  if (!query) {
+    iziToast.show({
+      message: 'Please enter your request',
+      position: 'topRight',
+      color: 'yellow',
+    });
+    return;
+  }
 
   searchPhoto(query)
     .then(markupPhoto)
-    .catch(onFetchError)
+    .catch(err => console.log(err))
     .finally(() => form.reset());
 }
 
@@ -33,33 +54,27 @@ function searchPhoto(value) {
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: true,
-    // per_page: 9,
   });
-  
-    
+
   const url = `${BAZE_URL}/?${urlParams}`;
-  return fetch(url).then(resp => {
-    if (!resp.ok) {
-      throw new Error(resp.statusText);
-    }
 
-    return resp.json();
-  });
-}
-
-function onFetchError(error) {
-  console.error(error);
-  iziToast.show({
-    title: 'Error',
-    message:
-      'Sorry, there are no images matching your search query. Please try again!',
-    position: 'topCenter',
-    color: 'red',
-  });
-    
+  return fetch(url).then(checkResponse);
 }
 
 function markupPhoto({ hits }) {
+  refs.loader.style.display = 'none';
+
+  if (hits.length === 0) {
+    iziToast.show({
+      title: 'Error',
+      message:
+        'Sorry, there are no images matching your search query. Please try again!',
+      position: 'topCenter',
+      color: 'red',
+    });
+    return;
+  }
+
   const markup = hits
     .map(
       hits => `<li class="gallery-item">
@@ -70,27 +85,20 @@ function markupPhoto({ hits }) {
       data-source="${hits.imoriginal}"
       alt="${hits.tags}"
     />
-  </a>
-   <p>Likes: ${hits.likes}</p>
-   <p>Views: ${hits.views}</p>
-   <p>Comment: ${hits.comments}</p>
-   <p>Downloads: ${hits.downloads}</p>
+  </a><div class="gallery-descr">
+   <p>Likes: <br><span>${hits.likes}</span></p>
+   <p>Views: <br><span>${hits.views}</span></p>
+   <p>Comment: <br><span>${hits.comments}</span></p>
+   <p>Downloads: <br><span>${hits.downloads}</span></p></div>
 </li>`
     )
     .join('');
-  
-    refs.photoListEl.innerHTML = markup;
-    modalLightboxGallery.refresh();
+
+  refs.photoListEl.innerHTML = markup;
+  modalLightboxGallery.refresh();
 }
 
-const modalLightboxGallery = new SimpleLightbox('.gallery a', {
+const modalLightboxGallery = new SimpleLightbox('.photo-container a', {
   captionsData: 'alt',
   captionDelay: 250,
 });
-
-function getLoader() {
-  loader.style.display = 'inline-block';
-  setTimeout(() => {
-    loader.style.display = 'none';
-  }, 1000);
-}

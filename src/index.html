@@ -18,21 +18,27 @@
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
-    <form class="search-form">
-      <input
-        type="text"
-        class="form-control"
-        name="query"
-        placeholder="Search images..."
-      />
+    <div class="container">
+      <form class="search-form">
+        <input
+          type="text"
+          class="form-control"
+          name="query"
+          placeholder="Search images..."
+        />
 
-      <button type="submit" class="search-btn">Search</button>
-    </form>
+        <button type="submit" class="search-btn">Search</button>
+      </form>
+      <div class="loader-wrap">
+        <span class="loader"></span>
+      </div>
 
-    <div class="photo-container">
-      <ul class="photo-list"></ul>
+      <div class="photo-container">
+        <ul class="photo-list"></ul>
+      </div>
     </div>
 
-    <script type="module" src="./main.js"></script>
+    <!-- <script type="module" src="./main.js"></script> -->
+    <script type="module" src="./test.js"></script>
   </body>
 </html>
