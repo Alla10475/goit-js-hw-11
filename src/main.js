@@ -1,5 +1,6 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
+
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
@@ -102,4 +103,3 @@ function markupPhoto({ hits }) {
   refs.photoListEl.insertAdjacentHTML('beforeend', markup);
   modalLightboxGallery.refresh();
 }
-
